@@ -1,0 +1,937 @@
+/* ============================================================
+   Sweet Studio - one page, mobile first, Hebrew RTL.
+   Colours live in the :root block below, change them in one place.
+
+   RTL note: the layout uses logical properties
+   (inset-inline-start / padding-inline-start / text-align: start)
+   instead of left/right, so it mirrors automatically from the
+   dir="rtl" on <html> and would still work if switched back to LTR.
+   ============================================================ */
+
+:root {
+  --cream: #fffaf5;
+  --cream-deep: #fdf0e4;
+  --ink: #2e211c;
+  --ink-soft: #6b5a52;
+  --brown: #7a3b2e;
+  --brown-dark: #5c2a20;
+  --peach: #f0a488;
+  --line: #ecdccd;
+  --white: #ffffff;
+
+  --radius: 18px;
+  --radius-lg: 28px;
+  --shadow: 0 10px 30px rgba(80, 40, 25, 0.08);
+  --shadow-lg: 0 22px 50px rgba(80, 40, 25, 0.14);
+
+  /* Hebrew-capable fonts. Frank Ruhl Libre is a Hebrew serif for headings,
+     Heebo is the body sans. Both also cover Latin letters and digits. */
+  --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
+  --font-body: 'Heebo', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --nav-h: 68px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor links stop below the sticky header instead of under it. */
+  scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  /* Hebrew needs a little more room than Latin, and no negative tracking. */
+  line-height: 1.24;
+  margin: 0 0 0.5em;
+  font-weight: 600;
+  letter-spacing: normal;
+}
+
+h1 {
+  font-size: clamp(2.3rem, 7vw, 4.2rem);
+}
+h2 {
+  font-size: clamp(1.8rem, 4.5vw, 2.9rem);
+}
+h3 {
+  font-size: 1.15rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--brown);
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--peach);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* No uppercase or wide tracking here - Hebrew has no capitals and
+   letter-spacing breaks up the words. */
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--brown);
+  margin-bottom: 0.6rem;
+}
+
+/* ------------------------------ buttons ------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.7rem;
+  border: 2px solid var(--brown);
+  border-radius: 999px;
+  background: var(--brown);
+  color: var(--white);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+  /* Comfortable tap target on phones. */
+  min-height: 48px;
+}
+
+.btn:hover {
+  background: var(--brown-dark);
+  border-color: var(--brown-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--brown);
+}
+
+.btn--ghost:hover {
+  background: var(--brown);
+  color: var(--white);
+}
+
+.btn--small {
+  padding: 0.55rem 1.15rem;
+  font-size: 0.9rem;
+  min-height: 40px;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* -------------------------------- nav -------------------------------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 250, 245, 0.85);
+  backdrop-filter: blur(10px);
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.nav--scrolled {
+  background: rgba(255, 250, 245, 0.96);
+  box-shadow: 0 1px 0 var(--line), 0 6px 20px rgba(80, 40, 25, 0.06);
+}
+
+.nav__inner {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.nav__logo-mark {
+  font-size: 1.4rem;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav__links a {
+  color: var(--ink);
+  font-weight: 500;
+  position: relative;
+}
+
+.nav__links a:not(.btn)::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: var(--brown);
+  transition: width 0.2s ease;
+}
+
+.nav__links a:not(.btn):hover::after {
+  width: 100%;
+}
+
+.nav__burger {
+  display: none;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+}
+
+/* Three lines drawn from one span, turning into an X when open. */
+.nav__burger span,
+.nav__burger span::before,
+.nav__burger span::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 11px;
+  width: 24px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.nav__burger span {
+  top: 22px;
+}
+/* Same logical property as the rule above, so it overrides cleanly in RTL
+   instead of fighting it and pushing the bars out of line. */
+.nav__burger span::before {
+  inset-inline-start: 0;
+  top: -7px;
+}
+.nav__burger span::after {
+  inset-inline-start: 0;
+  top: 7px;
+}
+
+.nav__burger span.is-x {
+  background: transparent;
+}
+.nav__burger span.is-x::before {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav__burger span.is-x::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* -------------------------------- hero ------------------------------- */
+
+.hero {
+  padding: clamp(2.5rem, 7vw, 5.5rem) 0 clamp(3rem, 8vw, 6rem);
+  background: radial-gradient(circle at 15% 0%, var(--cream-deep), var(--cream) 60%);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.hero__lead {
+  font-size: clamp(1.02rem, 2vw, 1.2rem);
+  color: var(--ink-soft);
+  max-width: 34rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin: 1.8rem 0 2.5rem;
+}
+
+.hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.2rem, 4vw, 2.8rem);
+  list-style: none;
+  margin: 0;
+  padding: 1.6rem 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.hero__facts li {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__facts strong {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--brown);
+}
+
+.hero__facts span {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.hero__art {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.hero__blob {
+  position: absolute;
+  inset: 8%;
+  background: linear-gradient(140deg, #ffd9c2, #f6b79a 55%, #e8927c);
+  border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+  animation: morph 14s ease-in-out infinite;
+}
+
+@keyframes morph {
+  50% {
+    border-radius: 54% 46% 44% 56% / 46% 54% 46% 54%;
+    transform: rotate(8deg) scale(1.03);
+  }
+}
+
+.hero__cake {
+  position: relative;
+  font-size: clamp(6rem, 16vw, 11rem);
+  filter: drop-shadow(0 16px 24px rgba(90, 45, 30, 0.25));
+}
+
+.hero__chip {
+  position: absolute;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  background: var(--white);
+  border-radius: 50%;
+  padding: 0.55rem;
+  box-shadow: var(--shadow);
+  animation: float 5s ease-in-out infinite;
+}
+
+.hero__chip--1 {
+  top: 6%;
+  inset-inline-end: 6%;
+}
+.hero__chip--2 {
+  bottom: 12%;
+  inset-inline-start: 2%;
+  animation-delay: 1.4s;
+}
+.hero__chip--3 {
+  bottom: 4%;
+  inset-inline-end: 16%;
+  animation-delay: 2.6s;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* ------------------------------ sections ----------------------------- */
+
+.section {
+  padding: clamp(3rem, 8vw, 6rem) 0;
+}
+
+.section--alt {
+  background: var(--cream-deep);
+}
+
+.section__head {
+  max-width: 44rem;
+  margin: 0 auto clamp(2rem, 5vw, 3.2rem);
+  text-align: center;
+}
+
+.section__head--left {
+  text-align: start;
+  margin: 0;
+}
+
+.section__lead {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-bottom: 0;
+}
+
+/* -------------------------------- tabs ------------------------------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.tab {
+  padding: 0.6rem 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink-soft);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 42px;
+  transition: all 0.16s ease;
+}
+
+.tab:hover {
+  border-color: var(--peach);
+  color: var(--ink);
+}
+
+.tab.is-active {
+  background: var(--brown);
+  border-color: var(--brown);
+  color: var(--white);
+}
+
+/* ------------------------------- cards ------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: clamp(1.2rem, 3vw, 2rem);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card__media {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(140deg, var(--cream-deep), #ffd9c2);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__placeholder {
+  font-size: 3.6rem;
+  opacity: 0.85;
+}
+
+.card__body {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card__body p {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--brown);
+  white-space: nowrap;
+}
+
+/* Items with no price set yet. */
+.price--ask {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.state {
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 2rem 0;
+}
+
+.state--error {
+  color: #a33b28;
+}
+
+/* ------------------------------- steps ------------------------------- */
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+  counter-reset: step;
+}
+
+.step {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+}
+
+.step__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--cream-deep);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.step__num {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--peach);
+  margin-bottom: 0.35rem;
+}
+
+.step p {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  margin: 0;
+}
+
+/* -------------------------------- form ------------------------------- */
+
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.ticks {
+  list-style: none;
+  padding: 0;
+  margin: 1.6rem 0 0;
+}
+
+.ticks li {
+  position: relative;
+  padding-inline-start: 1.9rem;
+  margin-bottom: 0.65rem;
+  color: var(--ink-soft);
+}
+
+.ticks li::before {
+  content: '✓';
+  position: absolute;
+  inset-inline-start: 0;
+  top: -1px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--brown);
+  color: var(--white);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.form {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  box-shadow: var(--shadow);
+}
+
+.field {
+  margin-bottom: 1.1rem;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  font: inherit;
+  /* 16px minimum stops iOS Safari zooming in when a field is focused. */
+  font-size: 16px;
+  color: var(--ink);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--peach);
+  box-shadow: 0 0 0 3px rgba(240, 164, 136, 0.25);
+}
+
+.form__error {
+  background: #fdecea;
+  border: 1px solid #f3c0b6;
+  color: #a33b28;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  font-size: 0.92rem;
+}
+
+.form__note {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0.9rem 0 0;
+}
+
+.thanks {
+  max-width: 34rem;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 5vw, 3.4rem);
+  box-shadow: var(--shadow);
+}
+
+.thanks__icon {
+  font-size: 3.2rem;
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.thanks p {
+  color: var(--ink-soft);
+  margin-bottom: 1.6rem;
+}
+
+/* ------------------------------- footer ------------------------------ */
+
+.footer {
+  background: var(--ink);
+  color: #f3e6dd;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+.footer__logo {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+
+.footer__brand p,
+.footer__col p {
+  color: #c9b5a9;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.footer__col h3 {
+  color: var(--white);
+  font-size: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.footer__col a {
+  display: block;
+  color: #e6d2c6;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer__col a:hover {
+  color: var(--peach);
+}
+
+.footer__small {
+  font-size: 0.85rem !important;
+  opacity: 0.75;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+}
+
+.footer__bottom p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #a8938a;
+  text-align: center;
+}
+
+.whatsapp-fab {
+  position: fixed;
+  /* Mirrors with the page: bottom-left on the Hebrew RTL site. */
+  inset-inline-end: 18px;
+  bottom: 18px;
+  z-index: 40;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #25d366;
+  color: var(--white);
+  box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4);
+  transition: transform 0.16s ease;
+}
+
+.whatsapp-fab:hover {
+  transform: scale(1.08);
+}
+
+/* ============================================================
+   TABLET  (<= 900px)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .hero__inner,
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__art {
+    order: -1;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  .footer__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ============================================================
+   PHONE  (<= 720px) - nav collapses into a full screen menu
+   ============================================================ */
+
+@media (max-width: 720px) {
+  .nav__burger {
+    display: block;
+  }
+
+  .nav__links {
+    position: fixed;
+    inset: var(--nav-h) 0 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.6rem;
+    background: var(--cream);
+    /* Hidden off screen until the burger is tapped. Slides in from the
+       same side the burger button sits on - which flips in RTL, so the
+       transform is overridden below (transforms are physical, not logical). */
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+  }
+
+  [dir='rtl'] .nav__links {
+    transform: translateX(-100%);
+  }
+
+  .nav__links.is-open,
+  [dir='rtl'] .nav__links.is-open {
+    transform: translateX(0);
+  }
+
+  .nav__links a {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+
+  .nav__links a:not(.btn)::after {
+    display: none;
+  }
+
+  .nav__cta {
+    font-size: 1rem !important;
+    padding: 0.9rem 2rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero__facts {
+    gap: 1.4rem 2rem;
+  }
+
+  .footer__inner {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    text-align: center;
+  }
+
+  .section__head--left {
+    text-align: center;
+  }
+
+  .ticks {
+    display: inline-block;
+    text-align: start;
+  }
+
+  /* Keep the floating button clear of the browser's bottom bar. */
+  .whatsapp-fab {
+    inset-inline-end: 14px;
+    bottom: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero__actions .btn {
+    width: 100%;
+  }
+
+  .card__footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+/* Respect the OS "reduce motion" setting. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
